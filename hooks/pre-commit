@@ -1,4 +1,54 @@
 #!/usr/bin/env bash
+
+# From https://sanctum.geek.nz/cgit/syntax-checking-git-hooks.git/tree/pre-commit
+# Start counting errors
+declare -i errors
+
+# Read records supplied by git diff-index, null-terminated; we only want the
+# sha1 object name of the staged file
+while read -r -d '' _ _ _ sha1 _ ; do
+    # git diff-files has a NULL both before and after the filename it prints,
+    # so we need to run read again to get the filename out to move on to the
+    # next record (this is a bit weird, but at least it works)
+    read -r -d '' filename _
+
+    # Skip the sha1 if it's empty (which is how diff-index shows deleted files
+    # or moves)
+    if [[ $sha1 != *[^0]* ]] ; then
+        continue
+    fi
+
+    # Check shell script syntax
+    if [[ $filename == *.sh ]] || \
+    git cat-file -p "$sha1" | file - | grep -iq 'POSIX shell' ; then
+        printf 'Syntax check modified %s ... \n' "$filename"
+
+        # Check the file with sh -n
+        if ! git cat-file -p "$sha1" | sh -n ; then
+            ((errors++))
+            continue
+        fi
+    fi
+
+    # Check PHP syntax
+    if [[ $filename == *.php ]] || \
+    git cat-file -p "$sha1" | file - | grep -iq php ; then
+        printf 'PHP lint modified %s ... \n' "$filename"
+
+        # Check the file with php -l
+        if ! git cat-file -p "$sha1" | php -l ; then
+            ((errors++))
+            continue
+        fi
+    fi
+
+# Standard input for the while loop is here
+done < <(git diff-index -z --cached HEAD)
+
+# Exit 0 if there were no errors, 1 if there were
+exit "$((errors > 0))"
+
+# Check for junk
 # From https://github.com/greg0ire/git_template/blob/master/template/hooks/junkchecker/pre-commit
 . "$GIT_DIR/hooks/git_config_wrapper.sh"
 get_hook_config junkchecker phrasesfile junkchecker_phrases_file required
