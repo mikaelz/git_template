@@ -13,7 +13,7 @@
     this-month = !git log --reverse --pretty=format:'%cd  %h  %s' --date=short --no-merges --since=$(date +\"%Y-%m-01\") --author=$(git config user.email)
     last-month = !git log --reverse --pretty=format:'%cd  %h  %s' --date=short --no-merges --since=$(date -d \"$(date +%Y-%m)-01 last month\" \"+%Y-%m-01\") --author=$(git config user.email)
 [commit]
-    template = ~/.git_config/commit_message
+    template = ~/.git_template/commit_message
 [color]
     ui = auto
 [color "diff"]
@@ -28,7 +28,9 @@
     untracked = red bold
 [core]
     editor = vim
-    excludesfile = ~/.git_config/gitignore
+    excludesfile = ~/.git_template/gitignore
+[init]
+	templatedir = ~/.git_template
 [push]
     default = simple
 [user]
@@ -38,6 +40,6 @@
 # https://git-template.readthedocs.io/en/latest/hooks/junk-checker/
 # Enable in repo with
 # git config --add hooks.enabled-plugins junkchecker
-# cp $HOME/.git_config/hooks .git/hooks
+# cp $HOME/.git_template/hooks .git/hooks
 [hooks "junkchecker"]
-	phrasesfile = $HOME/.git_config/junk
+	phrasesfile = $HOME/.git_template/junk
