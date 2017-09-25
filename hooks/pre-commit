@@ -33,10 +33,10 @@ while read -r -d '' _ _ _ sha1 _ ; do
     # Check PHP syntax
     if [[ $filename == *.php ]] || \
     git cat-file -p "$sha1" | file - | grep -iq php ; then
-        printf 'PHP lint modified %s ... \n' "$filename"
+        printf 'PHP lint modified %s \n' "$filename"
 
         # Check the file with php -l
-        if ! git cat-file -p "$sha1" | php -l ; then
+		if ! php -l "$filename"; then
             ((errors++))
             continue
         fi
