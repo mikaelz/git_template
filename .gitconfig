@@ -4,6 +4,7 @@
     ci = commit
 	ctags = !.git/ctags
     st = status
+    stl = stash list
     sm = submodule
     smu = submodule foreach git pull origin master
     leaderboard = shortlog -sne
