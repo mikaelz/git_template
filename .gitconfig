@@ -2,7 +2,6 @@
     co = checkout
     cm = checkout master
     ci = commit
-	ctags = !.git/ctags
     st = status
     stl = stash list
     sm = submodule
