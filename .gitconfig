@@ -46,3 +46,5 @@
 # cp $HOME/.git_template/hooks .git/hooks
 [hooks "junkchecker"]
 	phrasesfile = $HOME/.git_template/junk
+[pull]
+	ff = only
