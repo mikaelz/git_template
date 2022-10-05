@@ -34,6 +34,7 @@
     excludesfile = ~/.git_template/gitignore
 [init]
 	templatedir = ~/.git_template
+    defaultBranch = main
 [push]
     default = simple
 [user]
