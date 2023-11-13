@@ -32,7 +32,7 @@
 [core]
     editor = vim
     excludesfile = ~/.git_template/gitignore
-	pager = diffr | less -R
+	pager = diffr --colors refine-added:background:green:bold --colors refine-removed:background:red:bold --colors refine-added:foreground:white:bold --colors refine-removed:foreground:white:bold | less -R
 [init]
 	templatedir = ~/.git_template
     defaultBranch = main
@@ -51,4 +51,4 @@
 [pull]
 	ff = only
 [interactive]
-	difffilter = diffr
+	difffilter = diffr --colors refine-added:background:green:bold --colors refine-removed:background:red:bold --colors refine-added:foreground:white:bold --colors refine-removed:foreground:white:bold
