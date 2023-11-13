@@ -32,6 +32,7 @@
 [core]
     editor = vim
     excludesfile = ~/.git_template/gitignore
+	pager = diffr | less -R
 [init]
 	templatedir = ~/.git_template
     defaultBranch = main
@@ -49,3 +50,5 @@
 	phrasesfile = $HOME/.git_template/junk
 [pull]
 	ff = only
+[interactive]
+	difffilter = diffr
