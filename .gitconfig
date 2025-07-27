@@ -1,3 +1,5 @@
+# Inspired by https://micahkepe.com/blog/gitconfig/
+#
 [alias]
     co = checkout
     cm = checkout master
@@ -7,6 +9,7 @@
     sm = submodule
     smu = submodule foreach git pull origin master
     leaderboard = shortlog -sne
+    graph = log --all --graph --decorate --oneline
     lol = log --oneline --graph --all --decorate
     what = !git fetch && git diff master origin/master
     recent = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
@@ -17,6 +20,7 @@
     last-month = !git log --reverse --pretty=format:'%cd  %h  %s' --date=short --no-merges --since=$(date -d \"$(date +%Y-%m)-01 last month\" \"+%Y-%m-01\") --author=$(git config user.email)
 [commit]
     template = ~/.git_template/commit_message
+    verbose = true
 [color]
     ui = auto
 [color "diff"]
@@ -33,11 +37,22 @@
     editor = vim
     excludesfile = ~/.git_template/gitignore
 	pager = diffr --colors refine-added:background:green:bold --colors refine-removed:background:red:bold --colors refine-added:foreground:white:bold --colors refine-removed:foreground:white:bold | less -R
+[diff]
+    algorithm = histogram
+[help]
+    autocorrect = prompt
 [init]
 	templatedir = ~/.git_template
     defaultBranch = main
+[pull]
+	ff = only
+    rebase = true
 [push]
     default = simple
+    autoSetupRemote = true
+[maintenance]
+    auto = true
+    strategy = incremental
 [user]
     name = Michal Zuber
     email = info@nevilleweb.sk
