@@ -45,6 +45,14 @@ while read -r -d '' _ _ _ sha1 _ ; do
 # Standard input for the while loop is here
 done < <(git diff-index -z --cached HEAD)
 
+echo "Running phpcs via docker-compose..."
+if ! docker-compose config --services | grep -q '^php-qa$'; then
+    echo "php-qa service not found in docker-compose. Skipping phpcs check."
+elif ! docker-compose run --rm php-qa phpcs; then
+    echo "phpcs failed. Please fix code style issues before committing. Hint: docker-compose run --rm php-qa phpcbf"
+    exit 1
+fi
+
 # Exit 0 if there were no errors, 1 if there were
 exit "$((errors > 0))"
 
